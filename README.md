@@ -1,5 +1,7 @@
 # 集成React+TypeScript+antDegin4+Redux+axios的后台管理系统框架模板 
 
+### 预览地址（preview）：[http://wx.znike.top:9002/](http://wx.znike.top:9002/)
+
 ## Available Scripts
 
 In the project directory, you can run:
