@@ -14,6 +14,7 @@ const formItemLayout = {
 class Login extends React.Component<IProps>{
   handleLogin = (val: any) => {
     console.log('login', val);
+    localStorage.setItem('auth', 'true')
     this.props.history.push('/home')
 
   }

@@ -36,7 +36,7 @@ class DivLayout extends React.Component<IProps, IState> {
         const { collapsed } = this.state
 
         /*authorized 路由守卫，authorized为false，页面将跳转到登陆页面*/
-        const authorized: boolean = true
+        const authorized: boolean = localStorage.getItem('auth') ? true : false
         console.log('auth', authorized)
         return (<ConfigProvider locale={zhCN}>
             <Layout style={{ minHeight: '100vh' }}>
