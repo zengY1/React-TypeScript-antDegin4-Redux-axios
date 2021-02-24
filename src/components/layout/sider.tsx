@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { Layout, Menu } from 'antd'
 import {
@@ -31,36 +31,31 @@ const menuList = [
     { key: '3', title: '管理', path: '/admin', icon: <HomeOutlined /> },
 ]
 
-class SiderComponent extends React.Component<ISiderProps, IState> {
-    constructor(props: any) {
-        super(props)
-        this.state = {
-            selectedKeys: ['1'],
-            openKeys: ['1']
-        }
-    }
-    componentWillMount() {
-        /* 根据浏览器当前的URL，判断打开并选中当前的menu
-        */
-        const currentPath = this.props.location.pathname
+export default (props: any) => {
+    const [selectedKeys, setSelectedKeys] = useState(['1'])
+    const [openKeys, setOpenKeys] = useState(['1'])
+    /* 根据浏览器当前的URL，判断打开并选中当前的menu
+       */
+    useEffect(() => {
+        console.log('props', props)
+        const currentPath = props.props.location.pathname
         menuList.forEach((it) => {
             if (it.children) {
                 const c = it.children.findIndex((cit) => cit.path === currentPath)
                 if (c > -1) {
-                    this.setState({
-                        selectedKeys: [it.children[c].key],
-                        openKeys: [it.key]
-                    })
+                    setSelectedKeys([it.children[c].key])
                 }
             } else {
                 if (it.path === currentPath) {
-                    this.setState({ selectedKeys: [it.key] })
+                    setOpenKeys([it.key])
                 }
             }
         })
-    }
+    }, [])
+
+
     // menu的点击事件，跳转到相应的地址
-    menuItemClick = (item: any) => {
+    const menuItemClick = (item: any) => {
         let toPath: Path = { key: '', title: '', path: '' }
         menuList.forEach((it) => {
             if (it.children) {
@@ -74,32 +69,32 @@ class SiderComponent extends React.Component<ISiderProps, IState> {
                 }
             }
         })
-        this.props.history.push(toPath.path)
+        props.props.history.push(toPath.path)
     }
-    render() {
-        const { collapsed } = this.props
-        const { selectedKeys, openKeys } = this.state
-        return (<Sider
-            trigger={null}
-            collapsible
-            collapsed={collapsed}>
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={selectedKeys} defaultOpenKeys={openKeys} onClick={this.menuItemClick}>
-                {
-                    menuList.map(m => m.children ?
-                        <SubMenu
-                            key={m.key}
-                            icon={m.icon}
-                            title={<span>{m.title}</span>}>
-                            {
-                                m.children.map(mc => <Item key={mc.key} icon={mc.icon}>{mc.title}</Item>)
-                            }
-                        </SubMenu> :
-                        <Item key={m.key} icon={m.icon}>{m.title}</Item>
-                    )
-                }
-            </Menu>
-        </Sider>)
-    }
+
+    const { collapsed } = props
+
+    return (<Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={selectedKeys} defaultOpenKeys={openKeys} onClick={menuItemClick}>
+            {
+                menuList.map(m => m.children ?
+                    <SubMenu
+                        key={m.key}
+                        icon={m.icon}
+                        title={<span>{m.title}</span>}>
+                        {
+                            m.children.map(mc => <Item key={mc.key} icon={mc.icon}>{mc.title}</Item>)
+                        }
+                    </SubMenu> :
+                    <Item key={m.key} icon={m.icon}>{m.title}</Item>
+                )
+            }
+        </Menu>
+    </Sider>)
 }
 
-export default withRouter(SiderComponent)
+
+

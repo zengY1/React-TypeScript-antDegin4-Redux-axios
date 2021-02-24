@@ -5,7 +5,7 @@ let initState = {
 const demoStore = (state = initState || {}, action: any = {}) => {
     switch (action.type) {
         case 'change_count':
-            return { ...state, count: action.count };
+            return { ...state, count: action.saveData };
         default:
             return state;
     }

@@ -19,7 +19,7 @@ const Login = lazy(() => import( /* webpackChunkName:"login" */'./pages/login'))
 let middleware = [thunk];
 let store = createStore(reducer, applyMiddleware(...middleware));
 
-function App() {
+export default () => {
   return (
     <Provider store={store}>
       <ConfigProvider locale={zhCN}>
@@ -36,5 +36,3 @@ function App() {
     </Provider>
   );
 }
-
-export default App;
